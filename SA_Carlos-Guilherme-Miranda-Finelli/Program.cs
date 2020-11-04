@@ -7,6 +7,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
     {
         static void Main(string[] args)
         {
+            Venda v = new Venda();
             List<Cliente> C = new List<Cliente>();
             List<Produto> P = new List<Produto>();
             List<Venda> V = new List<Venda>();
@@ -63,23 +64,30 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 2:
-                    Console.WriteLine("Insira o CPF do cliente: ");
+                    Console.Write("Insira o CPF do cliente: ");
                     CPF = Console.ReadLine();
                     Console.Clear();
-                    Console.WriteLine("Insira o código do produto: ");
+                    Cliente cli = C.Find(cli => cli.CPF == CPF);
+                    if (cli == null)
+                    {
+                        Console.WriteLine("CPF inválido");
+                        Console.ReadKey();
+                        goto case 2;
+                    }
+                    Console.Write("Insira o código do produto: ");
                     int codProduto = Convert.ToInt16(Console.ReadLine());
                     Console.Clear();
-                    Console.WriteLine("Insira a quantidade que deseja comprar desse produto: ");
+                    Console.Write("Insira a quantidade que deseja comprar desse produto: ");
                     int Qtd = Convert.ToInt16(Console.ReadLine());
                     Console.Clear();
-                    Cliente cli;
                     int ven = 0;
-                    cli = C.Find(cli => cli.CPF == CPF);
                     foreach(var item in V)
                     {
                         ven = item.GetCodVenda();
                     }
-                    Venda venda = new Venda(CPF, codProduto, Qtd, cli, ven++);
+                    ven++;
+                    Produto p = P.Find(bacon => bacon.GetCodProduto() == codProduto);
+                    Venda venda = new Venda(CPF, codProduto, Qtd, cli, ven);
                     V.Add(venda);
                     Console.Write("Deseja inserir mais alguma venda? (1 - Sim, 2 - Não): ");
                     decisao = Convert.ToInt16(Console.ReadLine());
@@ -103,9 +111,10 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     int cod = 0;
                     foreach(var item in P)
                     {
-                        cod = item.codProduto;
+                        cod = item.GetCodProduto();
                     }
-                    Produto produto = new Produto(nomeProduto, Qtd, cod++, preco);
+                    cod++;
+                    Produto produto = new Produto(nomeProduto, Qtd, cod, preco);
                     P.Add(produto);
                     Console.Write("Deseja inserir mais algum produto? (1 - Sim, 2 - Não): ");
                     decisao = Convert.ToInt16(Console.ReadLine());
@@ -117,23 +126,32 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 4:
+                    double contv = 0;
+                    double result;
+                    foreach(var item in V)
+                    {
+                        contv += item.GetValorVenda();
+                    }
+                    result = contv / V.Count;
+                    Console.WriteLine($"A média dos valores das vendas é igual a: {result}");
                     Console.ReadKey();
                     goto inicio;
 
                 case 5:
-                    Venda v = new Venda();
-                    foreach(var item in V)
-                    {
-                        if (item.GetValorVenda() > v.GetValorVenda())
-                        {
-                            v.SetValorVenda(item.GetValorVenda());
-                            v.SetCodVenda(item.GetCodVenda());
-                        }
-                    }
+                    Console.Write($"Código da venda: {v.GetCodVenda()} | Valor da Venda: {v.GetValorVenda()}");
                     Console.ReadKey();
                     goto inicio;
 
                 case 6:
+                    foreach (var item in V)
+                    {
+                        if (item.GetValorVenda() < v.GetValorVenda())
+                        {
+                            v.SetValorVenda(item.GetValorVenda());
+
+                        }
+                    }
+                    Console.Write($"Código da venda: {v.GetCodVenda()} | Valor da Venda: {v.GetValorVenda()}");
                     Console.ReadKey();
                     goto inicio;
 
@@ -146,9 +164,20 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 9:
-                    foreach(Venda item in V)
+                    List<Venda> list = new List<Venda>();
+                    Console.WriteLine("Isira o CPF que deseja  ");
+                    CPF = Console.ReadLine();
+                    cli = C.Find(cli => cli.CPF == CPF);
+                    foreach (var item in V)
                     {
-                        Console.WriteLine(item.GetCPF());
+                        if (cli.CPF == item.GetCPF())
+                        {
+                            list.Add(item);
+                        }
+                    }
+                    foreach(var item in list)
+                    {
+                        Console.WriteLine(list);
                     }
                     Console.ReadKey();
                     goto inicio;
@@ -158,12 +187,13 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 11:
-                    foreach (var item in P)
+                    foreach (var item in V)
                     {
-                        Console.WriteLine(item.codProduto);
+                        Console.WriteLine(item.GetCodVenda());
                     }
                     Console.ReadKey();
                     goto inicio;
+
 
                 case 0:
                     Console.WriteLine("Obrigado por utilizar nossos serviços.");
