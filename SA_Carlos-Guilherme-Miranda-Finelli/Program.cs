@@ -130,7 +130,6 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                             v.SetCodVenda(item.GetCodVenda());
                         }
                     }
-                    Console.WriteLine($"Código da venda: {v.GetCodVenda()} | Valor da Venda: {v.GetValorVenda()}");
                     Console.ReadKey();
                     goto inicio;
 
