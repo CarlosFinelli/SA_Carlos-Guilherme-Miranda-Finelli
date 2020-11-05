@@ -42,5 +42,10 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
         {
             return qtd;
         }
+
+        public void SetQtd(int Qtd)
+        {
+            this.qtd = Qtd;
+        }
     }
 }

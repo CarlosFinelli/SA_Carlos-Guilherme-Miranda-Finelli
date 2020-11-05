@@ -18,19 +18,11 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
         }
         public Venda(String CPF, int codProduto, int Qtd, Cliente cliente, int codVenda)
         {
-            Produto p = new Produto(codProduto, Qtd);
             this.CPF = CPF;
             this.codProduto = codProduto;
             this.Qtd = Qtd;
             this.cliente = cliente;
             this.codVenda = codVenda;
-            valorVenda = p.GetQtd() * p.GetPreco();
-
-        }
-
-        public String GetCPF()
-        {
-            return CPF;
         }
 
         public int GetCodProduto()
@@ -61,14 +53,19 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
             return cliente;
         }
 
-        public void SetCPF(String CPF)
+        public void SetValorVenda(double ValorVenda)
         {
-            this.CPF = CPF;
+            this.valorVenda = ValorVenda;
         }
 
-        public void SetValorVenda(double Qtd)
+        public void SetCodVenda(int CodVenda)
         {
-            this.valorVenda = Qtd;
+            this.codVenda = CodVenda;
+        }
+
+        public void SetQtd(int Qtd)
+        {
+            this.Qtd = Qtd;
         }
     }
 }
