@@ -221,8 +221,10 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     {
                         Console.WriteLine($"|Código de venda: {item.GetCodVenda()} | Nome Cliente: {item.GetCliente().nome} | CPF cliente: {item.GetCliente().CPF} | Código do produto: {item.GetCodProduto()}" +
                             $" | Quantidade comprada: {item.GetQtd()} | \n|Valor da compra: {item.GetValorVenda()}|");
-                        Console.WriteLine();
+                        Console.WriteLine("----------------------------------------------------------------------------------------------------------------------");
                     }
+                    Console.WriteLine();
+                    Console.WriteLine();
                     Console.WriteLine($"Total de compras: {list.Count}");
                     Console.ReadKey();
                     goto inicio;
