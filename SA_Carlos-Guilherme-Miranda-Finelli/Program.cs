@@ -199,10 +199,38 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 7:
+                    int cont = 0, contcod = 1, contResult = 0, codResult = 0;
+                    foreach(var item in V)
+                    {
+                        if (contcod == item.GetProduto().GetCodProduto()) {
+                            cont += item.GetQtd();
+                        }
+                        if (cont > contResult)
+                        {
+                            codResult = contcod;
+                            contResult = cont;
+                        }
+                        contcod++;
+                    }
+                    Console.WriteLine($"| Produto mais vendido: {codResult} | Quantidade vendida: {contResult} |");
                     Console.ReadKey();
                     goto inicio;
 
                 case 8:
+                    cont = 0; contcod = 1; contResult = 0; codResult = 0;
+                    foreach(var item in V)
+                    {
+                        if (contcod == item.GetProduto().GetCodProduto()) {
+                            cont += item.GetQtd();
+                        }
+                        if (cont > contResult)
+                        {
+                            codResult = contcod;
+                            contResult = cont;
+                        }
+                        contcod++;
+                    }
+                    Console.WriteLine($"| Produto mais vendido: {codResult} | Quantidade vendida: {contResult} |");
                     Console.ReadKey();
                     goto inicio;
 
