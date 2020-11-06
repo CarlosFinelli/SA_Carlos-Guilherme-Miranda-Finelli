@@ -223,7 +223,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                         if (contcod == item.GetProduto().GetCodProduto()) {
                             cont += item.GetQtd();
                         }
-                        if (cont > contResult)
+                        if (cont < contResult)
                         {
                             codResult = contcod;
                             contResult = cont;
