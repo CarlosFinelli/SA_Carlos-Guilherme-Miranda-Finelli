@@ -11,10 +11,13 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
             List<Cliente> C = new List<Cliente>();
             List<Produto> P = new List<Produto>();
             List<Venda> V = new List<Venda>();
+            List<Venda> list = new List<Venda>();
             int opcao, decisao;
+            double result;
         inicio:
             Console.Clear();
-            Console.WriteLine("|---------------------------------------------------------------------|");
+
+            Console.WriteLine(" _____________________________________________________________________");
             Console.WriteLine("|                         1 - Manter clientes                         |");
             Console.WriteLine("|                                                                     |");
             Console.WriteLine("|                         2 - Manter venda                            |");
@@ -38,7 +41,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
             Console.WriteLine("|                        11 - Saldo final                             |");
             Console.WriteLine("|                                                                     |");
             Console.WriteLine("|                         0 - Sair                                    |");
-            Console.WriteLine("|---------------------------------------------------------------------|");
+            Console.WriteLine("|_____________________________________________________________________|");
             Console.WriteLine();
             Console.Write("Selecione uma opção: ");
             opcao = Convert.ToInt16(Console.ReadLine());
@@ -49,7 +52,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     Console.Write("Insira o nome do cliente: ");
                     String nome = Console.ReadLine();
                     Console.Clear();
-                    Console.Write("Insira o cpf do cliente: ");
+                    Console.Write("Insira o CPF do cliente: ");
                     String CPF = Console.ReadLine();
                     Console.Clear();
                     Cliente cliente = new Cliente(nome, CPF);
@@ -112,13 +115,13 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     {
                         pro.SetQtd(pro.GetQtd() - Qtd);
                     }
-                    int ven = 0;
+                    int codVen = 0;
                     foreach(var item in V)
                     {
-                        ven = item.GetCodVenda();
+                        codVen = item.GetCodVenda();
                     }
-                    ven++;
-                    Venda venda = new Venda(CPF, codProduto, Qtd, cli, ven);
+                    codVen++;
+                    Venda venda = new Venda(CPF, pro, Qtd, cli, codVen);
                     venda.SetValorVenda(pro.GetPreco() * Qtd);
                     V.Add(venda);
                     Console.Write("Deseja inserir mais alguma venda? (1 - Sim, 2 - Não): ");
@@ -160,7 +163,6 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
 
                 case 4:
                     double contv = 0;
-                    double result;
                     foreach(var item in V)
                     {
                         contv += item.GetValorVenda();
@@ -205,7 +207,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 9:
-                    List<Venda> list = new List<Venda>();
+                    list = new List<Venda>();
                     Console.Write("Isira o CPF que deseja: ");
                     CPF = Console.ReadLine();
                     Console.Clear();
@@ -219,7 +221,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     }
                     foreach(var item in list)
                     {
-                        Console.WriteLine($"|Código de venda: {item.GetCodVenda()} | Nome Cliente: {item.GetCliente().nome} | CPF cliente: {item.GetCliente().CPF} | Código do produto: {item.GetCodProduto()}" +
+                        Console.WriteLine($"|Código de venda: {item.GetCodVenda()} | Nome Cliente: {item.GetCliente().nome} | CPF cliente: {item.GetCliente().CPF} | Código do produto: {item.GetProduto().GetCodProduto()}" +
                             $" | Quantidade comprada: {item.GetQtd()} | \n|Valor da compra: {item.GetValorVenda()}|");
                         Console.WriteLine("----------------------------------------------------------------------------------------------------------------------");
                     }
@@ -230,14 +232,32 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 10:
+                    list = new List<Venda>();
+                    Console.WriteLine("Insira o código do produto que deseja verificar: ");
+                    int CodProduto = Convert.ToInt16(Console.ReadLine());
+                    pro = P.Find(pro => pro.GetCodProduto() == CodProduto);
+                    foreach (var item in V)
+                    {
+                        if (pro.GetCodProduto() == item.GetProduto().GetCodProduto())
+                        {
+                            list.Add(item);
+                        }
+                    }
+                    foreach(var item in list)
+                    {
+                        Console.WriteLine($"|Código da venda: {item.GetCodVenda()} | Produto vendido: {item.GetProduto().GetCodProduto()} - {item.GetProduto().GetNomeProduto()} | " +
+                            $"| Quantidade comprada: {item.GetProduto().GetQtd()} | Valor da venda: {item.GetValorVenda()}");
+                    }
                     Console.ReadKey();
                     goto inicio;
 
                 case 11:
+                    result = 0;
                     foreach (var item in V)
                     {
-                        Console.WriteLine(item.GetCodVenda());
+                        result += item.GetValorVenda();
                     }
+                    Console.WriteLine($"Saldo final: {result}");
                     Console.ReadKey();
                     goto inicio;
 

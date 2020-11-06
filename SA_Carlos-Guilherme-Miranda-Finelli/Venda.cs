@@ -8,26 +8,27 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
     class Venda
     {
         private String CPF;
-        private int codProduto, codVenda, Qtd;
+        private int codVenda, Qtd;
         private double SaldoFinal, valorVenda;
         private Cliente cliente;
+        private Produto produto;
 
         public Venda()
         {
 
         }
-        public Venda(String CPF, int codProduto, int Qtd, Cliente cliente, int codVenda)
+        public Venda(String CPF, Produto produto, int Qtd, Cliente cliente, int codVenda)
         {
             this.CPF = CPF;
-            this.codProduto = codProduto;
+            this.produto = produto;
             this.Qtd = Qtd;
             this.cliente = cliente;
             this.codVenda = codVenda;
         }
 
-        public int GetCodProduto()
+        public Produto GetProduto()
         {
-            return codProduto;
+            return produto;
         }
 
         public int GetQtd()
@@ -66,6 +67,11 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
         public void SetQtd(int Qtd)
         {
             this.Qtd = Qtd;
+        }
+
+        public void SetSaldoFinal(double SaldoFinal)
+        {
+            this.SaldoFinal = SaldoFinal;
         }
     }
 }
