@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace SA_Carlos_Guilherme_Miranda_Finelli
 {
@@ -9,7 +11,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
     {
         private String CPF;
         private int codVenda, Qtd;
-        private double SaldoFinal, valorVenda;
+        private double SaldoFinal, valorVenda, valorMax;
         private Cliente cliente;
         private Produto produto;
 
@@ -49,9 +51,15 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
         {
             return valorVenda;
         }
+
         public Cliente GetCliente()
         {
             return cliente;
+        }
+
+        public double GetValorMax()
+        {
+            return valorMax;
         }
 
         public void SetValorVenda(double ValorVenda)
@@ -67,6 +75,19 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
         public void SetQtd(int Qtd)
         {
             this.Qtd = Qtd;
+        }
+
+        public void SetMaxValor(List<Venda> V)
+        {
+            foreach (var item in V)
+            {
+                if (item.GetValorVenda() > GetValorVenda())
+                {
+                    SetValorVenda(item.GetValorVenda());
+                    SetCodVenda(item.GetCodVenda());
+                    valorMax = item.GetValorVenda();
+                }
+            }
         }
 
         public void SetSaldoFinal(double SaldoFinal)

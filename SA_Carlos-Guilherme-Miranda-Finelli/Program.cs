@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SA_Carlos_Guilherme_Miranda_Finelli
 {
@@ -180,12 +181,15 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                             v.SetValorVenda(item.GetValorVenda());
                             v.SetCodVenda(item.GetCodVenda());
                         }
+                        v.SetMaxValor(V);
                     }
                     Console.Write($"Código da venda: {v.GetCodVenda()} | Valor da Venda: {v.GetValorVenda()}");
                     Console.ReadKey();
                     goto inicio;
 
                 case 6:
+                    v.SetMaxValor(V);
+                    v.SetValorVenda(v.GetValorMax());
                     foreach (var item in V)
                     {
                         if (item.GetValorVenda() < v.GetValorVenda())
@@ -199,38 +203,35 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 7:
-                    int cont = 0, contcod = 1, contResult = 0, codResult = 0;
-                    foreach(var item in V)
+                    int total, resultado = 0, codi = 0;
+                    for (int i = 1; i < V.Count; i++)
                     {
-                        if (contcod == item.GetProduto().GetCodProduto()) {
-                            cont += item.GetQtd();
-                        }
-                        if (cont > contResult)
+                        var bacon = V.FindAll(V => V.GetProduto().GetCodProduto() == i);
+                        total = bacon.Sum(V => V.GetQtd());
+                        if (total > resultado)
                         {
-                            codResult = contcod;
-                            contResult = cont;
+                            resultado = total;
+                            codi = i;
                         }
-                        contcod++;
                     }
-                    Console.WriteLine($"| Produto mais vendido: {codResult} | Quantidade vendida: {contResult} |");
+                    Console.WriteLine($"| Código do produto mais vendido: {codi} | Quantidade total vendida: {resultado} |");
                     Console.ReadKey();
                     goto inicio;
 
                 case 8:
-                    cont = 0; contcod = 1; contResult = 0; codResult = 0;
-                    foreach(var item in V)
+                    total = 0; resultado = 0; codi = 0;
+                    for (int i = 1; i < V.Count; i++)
                     {
-                        if (contcod == item.GetProduto().GetCodProduto()) {
-                            cont += item.GetQtd();
-                        }
-                        if (cont < contResult)
+                        var bacon = V.FindAll(V => V.GetProduto().GetCodProduto() == i);
+                        total = bacon.Sum(V => V.GetQtd());
+                        if (total < resultado)
                         {
-                            codResult = contcod;
-                            contResult = cont;
+                            resultado = total;
+                            codi = i;
                         }
-                        contcod++;
+                        resultado = total;
                     }
-                    Console.WriteLine($"| Produto mais vendido: {codResult} | Quantidade vendida: {contResult} |");
+                    Console.WriteLine($"| Código do produto menos vendido: {codi} | Quantidade total vendida: {resultado} |");
                     Console.ReadKey();
                     goto inicio;
 
