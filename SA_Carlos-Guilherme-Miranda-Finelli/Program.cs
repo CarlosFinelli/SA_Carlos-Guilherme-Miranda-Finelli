@@ -204,7 +204,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
 
                 case 7:
                     int total, resultado = 0, codi = 0;
-                    for (int i = 1; i < V.Count; i++)
+                    for (int i = 1; i < P.Count; i++)
                     {
                         var bacon = V.FindAll(V => V.GetProduto().GetCodProduto() == i);
                         total = bacon.Sum(V => V.GetQtd());
@@ -220,7 +220,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
 
                 case 8:
                     total = 0; resultado = 0; codi = 0;
-                    for (int i = 1; i < V.Count; i++)
+                    for (int i = 1; i < P.Count; i++)
                     {
                         var bacon = V.FindAll(V => V.GetProduto().GetCodProduto() == i);
                         total = bacon.Sum(V => V.GetQtd());
