@@ -138,7 +138,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     Console.Write("Insira o nome do produto: ");
                     String nomeProduto = Console.ReadLine();
                     Console.Clear();
-                    Console.Write("Insira a quantidade de produtos comprada: ");
+                    Console.Write("Insira a quantidade de produtos comprada para estoque: ");
                     Qtd = Convert.ToInt16(Console.ReadLine());
                     Console.Clear();
                     Console.Write("Insira o preço unitário desse produto: ");
