@@ -68,7 +68,19 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 2:
-                    Console.Write("Insira o CPF do cliente: ");
+                    Console.WriteLine("                    |                       Lista de Clientes cadastrados:                       |");
+                    Console.WriteLine();
+                    C.Sort(delegate (Cliente cliente1, Cliente cliente2)
+                    {
+                        return cliente1.nome.CompareTo(cliente2.nome);
+                    });
+                    C.ForEach(delegate (Cliente item)
+                     {
+                         Console.WriteLine($"                    |                            Nome: {item.nome} | CPF: {item.CPF}                         |");
+                         Console.WriteLine();
+                     });
+                    Console.WriteLine();
+                    Console.Write("Insira o CPF do Cliente: ");
                     CPF = Console.ReadLine();
                     Console.Clear();
                     Cliente cli = C.Find(cli => cli.CPF == CPF);
@@ -76,14 +88,21 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     {
                         Console.WriteLine("CPF inválido");
                         Console.ReadKey();
-                        goto case 2;
+                        Console.Clear();
+                        Console.WriteLine("Deseja tentar novamente? (1 = Sim, 2 = Não");
+                        decisao = Convert.ToInt16(Console.ReadLine());
+                        if (decisao == 1)
+                        {
+                            goto case 2;
+                        }
+                        goto inicio;
                     }
                     foreach(var item in P)
                     {
-                        Console.WriteLine($"|{item.GetCodProduto()} = {item.GetNomeProduto()} | Preço = {item.GetPreco()}|");
+                        Console.WriteLine($"                                       | {item.GetCodProduto()} = {item.GetNomeProduto()} | Preço = {item.GetPreco()} |");
                         Console.WriteLine();
                     }
-                    Console.Write("Insira o código do produto que deseja comprar: ");
+                    Console.Write("                             Insira o código do produto que deseja comprar: ");
                     int codProduto = Convert.ToInt16(Console.ReadLine());
                     Console.Clear();
                     Produto pro = P.Find(pro => pro.GetCodProduto() == codProduto);
@@ -92,9 +111,15 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                         Console.WriteLine("Código do produto inválido");
                         Console.ReadKey();
                         Console.Clear();
-                        goto case 2;
+                        Console.WriteLine("Deseja tentar novamente? (1 = Sim, 2 = Não");
+                        decisao = Convert.ToInt16(Console.ReadLine());
+                        if (decisao == 1)
+                        {
+                            goto case 2;
+                        }
+                        goto inicio;
                     }
-                    Console.Write("Insira a quantidade que deseja comprar desse produto: ");
+                    Console.Write("                          Insira a quantidade que deseja comprar desse produto: ");
                     int Qtd = Convert.ToInt16(Console.ReadLine());
                     Console.Clear();
                     if (pro.GetQtd() < Qtd)
@@ -125,7 +150,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     Venda venda = new Venda(CPF, pro, Qtd, cli, codVen);
                     venda.SetValorVenda(pro.GetPreco() * Qtd);
                     V.Add(venda);
-                    Console.Write("Deseja inserir mais alguma venda? (1 - Sim, 2 - Não): ");
+                    Console.Write("                               Deseja inserir mais alguma venda? (1 - Sim, 2 - Não): ");
                     decisao = Convert.ToInt16(Console.ReadLine());
                     while (decisao != 2)
                     {
@@ -181,15 +206,14 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                             v.SetValorVenda(item.GetValorVenda());
                             v.SetCodVenda(item.GetCodVenda());
                         }
-                        v.SetMaxValor(V);
                     }
                     Console.Write($"Código da venda: {v.GetCodVenda()} | Valor da Venda: {v.GetValorVenda()}");
                     Console.ReadKey();
                     goto inicio;
 
                 case 6:
-                    v.SetMaxValor(V);
-                    v.SetValorVenda(v.GetValorMax());
+                    Venda v1 = V.Last();
+                    v.SetValorVenda(v1.GetValorVenda());
                     foreach (var item in V)
                     {
                         if (item.GetValorVenda() < v.GetValorVenda())
@@ -204,10 +228,10 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
 
                 case 7:
                     int total, resultado = 0, codi = 0;
-                    for (int i = 1; i < P.Count; i++)
+                    for (int i = 1; i <= P.Count; i++)
                     {
-                        var bacon = V.FindAll(V => V.GetProduto().GetCodProduto() == i);
-                        total = bacon.Sum(V => V.GetQtd());
+                        var sumResult = V.FindAll(V => V.GetProduto().GetCodProduto() == i);
+                        total = sumResult.Sum(item => item.GetQtd());
                         if (total > resultado)
                         {
                             resultado = total;
@@ -219,23 +243,36 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 8:
-                    total = 0; resultado = 0; codi = 0;
-                    for (int i = 1; i < P.Count; i++)
+                    var lastSum = V.FindAll(item => item.GetProduto().GetCodProduto() == P.Count());
+                    total = 0; codi = P.Count;
+                    resultado = lastSum.Sum(item => item.GetProduto().GetQtd());
+                    for (int i = 1; i <= P.Count; i++)
                     {
-                        var bacon = V.FindAll(V => V.GetProduto().GetCodProduto() == i);
-                        total = bacon.Sum(V => V.GetQtd());
+                        var sumResult = V.FindAll(V => V.GetProduto().GetCodProduto() == i);
+                        total = sumResult.Sum(item => item.GetQtd());
                         if (total < resultado)
                         {
                             resultado = total;
                             codi = i;
                         }
-                        resultado = total;
                     }
                     Console.WriteLine($"| Código do produto menos vendido: {codi} | Quantidade total vendida: {resultado} |");
                     Console.ReadKey();
                     goto inicio;
 
                 case 9:
+                    Console.WriteLine("                    |                       Lista de Clientes cadastrados:                       |");
+                    Console.WriteLine();
+                    C.Sort(delegate (Cliente cliente1, Cliente cliente2)
+                    {
+                        return cliente1.nome.CompareTo(cliente2.nome);
+                    });
+                    C.ForEach(delegate (Cliente item)
+                    {
+                        Console.WriteLine($"                    |                            Nome: {item.nome} | CPF: {item.CPF}                         |");
+                        Console.WriteLine();
+                    });
+                    Console.WriteLine();
                     list = new List<Venda>();
                     Console.Write("Isira o CPF que deseja: ");
                     CPF = Console.ReadLine();
@@ -261,8 +298,16 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                     goto inicio;
 
                 case 10:
+                    Console.WriteLine("                    |                       Lista de Produtos cadastrados:                       |");
+                    Console.WriteLine();
+                    foreach(var item in P)
+                    {
+                        Console.WriteLine($"                    |                            Código: {item.GetCodProduto()} | Nome: {item.GetNomeProduto()}                         |");
+                        Console.WriteLine();
+                    };
+                    Console.WriteLine();
                     list = new List<Venda>();
-                    Console.WriteLine("Insira o código do produto que deseja verificar: ");
+                    Console.Write("Insira o código do produto que deseja verificar: ");
                     int CodProduto = Convert.ToInt16(Console.ReadLine());
                     pro = P.Find(pro => pro.GetCodProduto() == CodProduto);
                     foreach (var item in V)
@@ -272,11 +317,16 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
                             list.Add(item);
                         }
                     }
-                    foreach(var item in list)
+                    list.Sort(delegate (Venda venda1, Venda venda2)
+                    {
+                        return venda1.GetProduto().GetQtd().CompareTo(venda2.GetProduto().GetQtd());
+                    });
+                    list.ForEach(delegate (Venda item)
                     {
                         Console.WriteLine($"|Código da venda: {item.GetCodVenda()} | Produto vendido: {item.GetProduto().GetCodProduto()} - {item.GetProduto().GetNomeProduto()} | " +
-                            $"| Quantidade comprada: {item.GetProduto().GetQtd()} | Valor da venda: {item.GetValorVenda()}");
-                    }
+                            $"Quantidade comprada: {item.GetProduto().GetQtd()} | Valor da venda: {item.GetValorVenda()}");
+                        Console.WriteLine();
+                    });
                     Console.ReadKey();
                     goto inicio;
 
@@ -292,7 +342,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
 
 
                 case 0:
-                    Console.WriteLine("Obrigado por utilizar nossos serviços.");
+                    Console.WriteLine("                                          | Obrigado por utilizar nossos serviços. |");
                     Console.ReadKey();
                     break;
 

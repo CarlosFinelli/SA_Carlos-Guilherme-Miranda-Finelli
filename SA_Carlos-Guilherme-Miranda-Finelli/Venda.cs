@@ -11,7 +11,7 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
     {
         private String CPF;
         private int codVenda, Qtd;
-        private double SaldoFinal, valorVenda, valorMax;
+        private double SaldoFinal, valorVenda;
         private Cliente cliente;
         private Produto produto;
 
@@ -57,11 +57,6 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
             return cliente;
         }
 
-        public double GetValorMax()
-        {
-            return valorMax;
-        }
-
         public void SetValorVenda(double ValorVenda)
         {
             this.valorVenda = ValorVenda;
@@ -75,19 +70,6 @@ namespace SA_Carlos_Guilherme_Miranda_Finelli
         public void SetQtd(int Qtd)
         {
             this.Qtd = Qtd;
-        }
-
-        public void SetMaxValor(List<Venda> V)
-        {
-            foreach (var item in V)
-            {
-                if (item.GetValorVenda() > GetValorVenda())
-                {
-                    SetValorVenda(item.GetValorVenda());
-                    SetCodVenda(item.GetCodVenda());
-                    valorMax = item.GetValorVenda();
-                }
-            }
         }
 
         public void SetSaldoFinal(double SaldoFinal)
